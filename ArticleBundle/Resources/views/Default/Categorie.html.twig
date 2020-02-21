@@ -1,0 +1,32 @@
+{% extends 'baseAdmin.html.twig' %}
+
+{% block container %}
+
+<h1>Liste des Categorie</h1>
+<table border="1">
+    <tr>
+
+        <td> Nom </td>
+        <td>type</td>
+        <td>Actions</td>
+
+
+
+    </tr>
+    {% for entity in projets %}
+        <tr>
+
+                <td>  {{ entity.nom }} </td>
+            <td> {{ entity.type }} </td>
+
+
+             <td><a class="btn btn-danger" href="{{ path('deleteCategorie',{'id':entity.id}) }}">Supprimer</a></td>
+             <td><a class="btn btn-success" href="{{ path('UpdateCategorie',{'id':entity.id}) }}">Modifier</a></td>
+
+
+        </tr>
+    {% endfor %}
+</table>
+
+
+{% endblock %}

@@ -1,0 +1,121 @@
+{% extends 'baseClient.html.twig' %}
+
+{% block head %}
+{% endblock head %}
+
+{% block container %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/rating.css') }}" />
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="{{ asset('js/rating.js') }}"></script>
+
+    <h2>Chercher une Annonce !!</h2>
+
+    <div class="sidebar-search">
+
+        <div class="input-group custom-search-form">
+
+            Title : <input type="text" id="search" class="form-control" placeholder="Search here">
+
+        </div>
+        <!-- /input-group -->
+    </div>
+    <ul class="nav" id="side-menu">
+        <li>
+            <a href="#"> Entities<span class="fa arrow"></span></a>
+            <ul class="nav nav-second-level" id="entitiesNav">
+            </ul>
+        </li>
+    </ul><br><br><br><br>
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        jQuery(document).ready(function() {
+            var searchRequest = null;
+            $("#search").keyup(function() {
+                var minlength = 1;
+                var that = this;
+                var value = $(this).val();
+                var entitySelector = $("#entitiesNav").html('');
+                if (value.length >= minlength ) {
+                    if (searchRequest != null)
+                        searchRequest.abort();
+                    searchRequest = $.ajax({
+                        type: "GET",
+                        url: "{{ path('Search') }}",
+                        data: {
+                            'q' : value
+                        },
+                        dataType: "text",
+                        success: function(msg){
+                            //we need to check if the value is the same
+                            if (value===$(that).val()) {
+                                var result = JSON.parse(msg);
+                                $.each(result, function(key, arr) {
+                                    $.each(arr, function(id, value) {
+                                        if (key === 'posts') {
+                                            if (id !== 'error') {
+                                                console.log(value[1]);
+                                                entitySelector.append('<li><b>'+value[1]+'</b><a><img src="/PIDEV/web/imageupload'+value[0]+'" style="width: 50px; height: 50px"/>'+'</a></li>');
+                                            } else {
+                                                entitySelector.append('<li class="errorLi">'+value+'</li>');
+                                            }
+                                        }
+                                    });
+                                });
+                            }
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+
+
+                <h1 ALIGN=center style="color:#4ecdc4  ;">Liste des Annonces</h1>
+                </br>
+                </br>
+                </br>
+
+            {% for c in annonces %}
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <img src= "{{ asset('/PIDEV/web/imageupload/' ~ c.photo ) }}"  width="160" height="160"/>
+                            <div class="card-body">
+
+                                <h3 class="card-title">Nom de l'Article:{{ c.NomArticle }}</h3>
+                                <h3 class="card-title">Type Categorie:{{ c.Categorie.type }}</h3>
+
+                                <h3 class="card-title">Date de l'annonce:{{ c.Date | date("m/d/Y")}}</h3>
+                                <h3 class="card-title">Description de l'article:{{ c.Description }}</h3>
+                                <h3 class="card-title">Rating de l'article:{{ c.rating|rating(5, "fa-3x") }}</h3>
+
+
+                                <a href="{{ path('ModifierAnnonce',{'id':c.id}) }}" class="btn btn-success">Modifier </a>
+                                <a href="{{ path('SupprimerAnnonce',{'id':c.id}) }}"class="btn btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer annonce ?') ">Supprimer </a>
+                            </div>
+                        </div>
+                        </br>
+                        </br>
+                        </br>
+                    </div>
+
+                    {% endfor %}
+                </div>
+
+
+                </div>
+
+
+                <hr>
+                <a href="http://www.jquery2dotnet.com/" class="mx-auto pb-3 text-center">
+
+                </a>
+                </div>
+            </center>
+        {% endblock  %}
+
+
+

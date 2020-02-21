@@ -1,0 +1,101 @@
+{% extends 'baseClient.html.twig' %}
+
+{% block head %}
+    <style>
+        #hello{
+            padding:10px;
+        }
+
+        .c{
+            width: 300px;
+            height: 150px;
+
+
+
+        }
+
+        h1{
+            width: 35%;
+            margin-left:auto;
+            margin-right:auto;
+            background:white;
+            border-radius:5px;
+            position:relative;
+            font-family: 'Libre Franklin';
+        }
+        .form{
+            width: 35%;
+            margin-left:auto;
+            margin-right:auto;
+            padding:50px;
+            background:whitesmoke;
+            border-radius:5px;
+            position:relative;
+            font-family: 'Libre Franklin', sans-serif;
+        }
+
+        .form > div {
+            float:left;margin-bottom:30px;
+        }
+        .form > div > p{
+            font-size: 12px;margin-bottom: 3px;
+        }
+        .form > div > input{
+            font-size:12px;letter-spacing:1px;padding:  5px;border: 0;background:  whitesmoke;border-bottom: 1px solid silver;width: 100%;color: gray;
+        }
+
+        .form > p:last-of-type{
+            text-align: center;padding-top: 50px;display:  table;width: 100%;color:white;
+        }
+
+        .form > p:last-of-type > a{
+            cursor:pointer;border:0;
+            padding: 10px 25px;
+            background:  silver;
+            border-radius:  28px;
+            font-size: 12px;
+        }
+
+        .term{
+            padding-top:40px;display: flex;width:  100%;align-items:  center;
+        }
+
+        .term > i{
+            cursor:pointer;width:20px;
+        }
+
+        .term > span{
+            font-size:12px;
+        }
+
+        /* delete */
+        form > a:last-of-type{
+            position:absolute;
+            bottom: 10px;
+            right: 15px;
+            font-size:  10px;
+            letter-spacing:  1px;
+            font-style: italic;
+        }
+
+
+    </style>
+{% endblock %}
+
+{% block container %}
+
+    <fieldset style="width: 50%">
+        <form method="POST">
+            NomArticle: <input type="text" name="NomArticle" value="{{ modele.NomArticle }}"></br>
+            Description: <input type="text" name="Description" value="{{ modele.Description }}"></br>
+
+            Type: <input type="ChoiceType" value="{{ modele.Categorie.Type }}"></br>
+
+
+
+            <input class="btn btn-success" type="submit" value="Enregistrer">
+        </form>
+    </fieldset>
+
+
+{% endblock %}
